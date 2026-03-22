@@ -19,6 +19,7 @@ export type ResultInfo = {
   accent: string;
   link: string;
   productCaption: string;
+  slug: "commoner" | "noble" | "princess" | "queen";
 };
 
 export const questions: Question[] = [
@@ -83,6 +84,7 @@ export const results: ResultInfo[] = [
     accent: "from-rose-100 via-amber-50 to-orange-100",
     link: "https://link.coupang.com/a/d9nVLf",
     productCaption: "당신을 위한 스트레스 해소템을 추천합니다.",
+    slug: "commoner",
   },
   {
     title: "귀족",
@@ -91,6 +93,7 @@ export const results: ResultInfo[] = [
     accent: "from-amber-100 via-rose-50 to-yellow-100",
     link: "https://link.coupang.com/a/d9n0gK",
     productCaption: "당신을 위한 스트레스 해소템을 추천합니다.",
+    slug: "noble",
   },
   {
     title: "공주",
@@ -99,6 +102,7 @@ export const results: ResultInfo[] = [
     accent: "from-pink-100 via-rose-50 to-fuchsia-100",
     link: "https://link.coupang.com/a/d9n3gu",
     productCaption: "공주님을 위한 스트레스 해소템을 추천합니다.",
+    slug: "princess",
   },
   {
     title: "여왕",
@@ -107,6 +111,7 @@ export const results: ResultInfo[] = [
     accent: "from-rose-200 via-orange-100 to-yellow-100",
     link: "https://link.coupang.com/a/d9nYIa",
     productCaption: "퀸을 위한 스트레스 해소템을 추천합니다.",
+    slug: "queen",
   },
 ];
 
@@ -124,4 +129,12 @@ export function calculateResult(totalScore: number): ResultInfo {
   }
 
   return results[3];
+}
+
+export function findResultBySlug(slug: string | null): ResultInfo | null {
+  if (!slug) {
+    return null;
+  }
+
+  return results.find((item) => item.slug === slug) ?? null;
 }
