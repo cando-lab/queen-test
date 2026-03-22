@@ -1,5 +1,6 @@
 "use client";
 
+import { CoupangBanner } from "@/components/coupang-banner";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
@@ -48,6 +49,10 @@ export default function Home() {
             aria-hidden="true"
           />
         </button>
+      </div>
+
+      <div className="absolute inset-x-0 bottom-2 z-30 px-2 sm:bottom-3">
+        <CoupangBanner />
       </div>
     </main>
   );
