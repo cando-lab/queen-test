@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: #703d52;
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  background: none;
+}
+
+button {
+  font: inherit;
+}
+
+.start-sparkle {
+  background:
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.52) 24%, rgba(255, 186, 222, 0.38) 50%, rgba(255, 186, 222, 0) 78%),
+    radial-gradient(circle at 28% 30%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 18%),
+    radial-gradient(circle at 74% 35%, rgba(255, 210, 235, 0.9) 0%, rgba(255, 210, 235, 0) 16%),
+    radial-gradient(circle at 42% 72%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0) 14%);
+  box-shadow:
+    0 0 24px rgba(255, 232, 245, 0.9),
+    0 0 46px rgba(255, 160, 214, 0.68),
+    inset 0 0 28px rgba(255, 255, 255, 0.66);
+}
+
+.start-sparkle.is-active {
+  animation: start-glow 0.42s ease-out forwards;
+}
+
+@keyframes start-glow {
+  0% {
+    opacity: 0.1;
+    transform: scale(0.9);
+  }
+
+  35% {
+    opacity: 0.95;
+    transform: scale(1.06);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.14);
+  }
+}
