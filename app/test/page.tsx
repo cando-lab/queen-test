@@ -84,22 +84,8 @@ export default function TestPage() {
                 </div>
               </div>
             ) : (
-              <div className="space-y-6">
-                <div className="rounded-[22px] bg-white/60 px-4 py-3 text-sm text-berry/80">
-                  총점 {totalScore} / 20
-                </div>
-
+              <div className="space-y-4">
                 <div className="space-y-3">
-                  <h2 className="font-display text-4xl text-berry sm:text-[2.8rem]">
-                    {result.title}
-                  </h2>
-                  <p className="text-base leading-7 text-berry/90">{result.description}</p>
-                  {result.extra ? (
-                    <p className="text-sm leading-6 text-berry/75">{result.extra}</p>
-                  ) : null}
-                </div>
-
-                <div className="space-y-2">
                   <a
                     href={result.link}
                     target="_blank"
@@ -119,8 +105,29 @@ export default function TestPage() {
                       />
                     </div>
                   </a>
-                  <p className="whitespace-nowrap text-center text-[11px] text-berry/65 sm:text-xs">
-                    {result.productCaption}
+
+                  <a
+                    href={result.link}
+                    target="_blank"
+                    rel="noopener noreferrer sponsored"
+                    className="block rounded-full bg-gradient-to-r from-rose to-[#ec8caf] px-5 py-3 text-center text-sm font-semibold text-white sm:text-base"
+                  >
+                    당신을 위한 스트레스 해소템을 추천합니다
+                  </a>
+
+                  <div className="flex justify-center">
+                    <p className="inline-flex whitespace-nowrap rounded-full bg-white/[0.72] px-3 py-1 text-center text-[10px] text-slate-500 backdrop-blur-sm sm:text-[11px]">
+                      이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <h2 className="whitespace-nowrap font-display text-[1.8rem] leading-tight text-berry sm:text-[2.2rem]">
+                    결과 : {result.title}
+                  </h2>
+                  <p className="whitespace-nowrap text-[12px] leading-5 text-berry/85 sm:text-sm">
+                    한줄설명 : {result.description}
                   </p>
                 </div>
 
@@ -130,10 +137,6 @@ export default function TestPage() {
                 >
                   다시하기
                 </Link>
-
-                <p className="whitespace-nowrap px-1 text-center text-[10px] text-slate-500 sm:text-[11px]">
-                  이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
-                </p>
               </div>
             )}
           </section>
