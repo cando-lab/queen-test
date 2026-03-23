@@ -15,12 +15,15 @@ export function getResultShareCopy(slug: string) {
     return null;
   }
 
+  const shareMessage = `나는 ${result.title}. 너는?`;
+
   return {
-    title: `${result.title}형 공주력`,
-    description: `나는 공주력 테스트에서 ${result.title}이 나왔다`,
+    title: shareMessage,
+    description: shareMessage,
     image: result.image,
     result,
     path: result.shareLink,
+    shareMessage,
   };
 }
 

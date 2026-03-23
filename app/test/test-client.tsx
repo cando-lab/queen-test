@@ -43,8 +43,8 @@ export function TestClient() {
     }
 
     const shareUrl = `${window.location.origin}${shareCopy.path}`;
-    const shareTitle = shareCopy.title;
-    const shareText = shareCopy.description;
+    const shareTitle = shareCopy.shareMessage;
+    const shareText = shareCopy.shareMessage;
 
     try {
       if (navigator.share) {
@@ -68,7 +68,7 @@ export function TestClient() {
   const handleRestart = () => {
     setCurrentIndex(0);
     setTotalScore(0);
-    router.replace("/test");
+    router.push("/");
   };
 
   return (
