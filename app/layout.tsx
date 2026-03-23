@@ -1,9 +1,29 @@
 import type { Metadata } from "next";
+import { homeShareMetadata } from "@/lib/share-data";
+import { getMetadataBase } from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "공주력 테스트",
-  description: "유쾌하고 빠르게 즐기는 공주력 심리테스트",
+  metadataBase: getMetadataBase(),
+  title: homeShareMetadata.title,
+  description: homeShareMetadata.description,
+  openGraph: {
+    title: homeShareMetadata.title,
+    description: homeShareMetadata.description,
+    images: [
+      {
+        url: homeShareMetadata.image,
+        alt: homeShareMetadata.title,
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: homeShareMetadata.title,
+    description: homeShareMetadata.description,
+    images: [homeShareMetadata.image],
+  },
 };
 
 export default function RootLayout({

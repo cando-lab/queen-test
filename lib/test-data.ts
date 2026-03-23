@@ -17,9 +17,10 @@ export type ResultInfo = {
   extra?: string;
   image: string;
   accent: string;
-  link: string;
-  productCaption: string;
   slug: "commoner" | "noble" | "princess" | "queen";
+  shareLink: string;
+  productLink: string;
+  productButtonLabel: string;
 };
 
 export const questions: Question[] = [
@@ -82,36 +83,40 @@ export const results: ResultInfo[] = [
     extra: "멋 부리기보다 편한 게 최고",
     image: "/img/1.png",
     accent: "from-rose-100 via-amber-50 to-orange-100",
-    link: "https://link.coupang.com/a/d9nVLf",
-    productCaption: "당신을 위한 스트레스 해소템을 추천합니다.",
     slug: "commoner",
+    shareLink: "/share/commoner",
+    productLink: "https://link.coupang.com/a/d9nVLf",
+    productButtonLabel: "당신을 위한 스트레스 해소템",
   },
   {
     title: "귀족",
     description: "나를 어느 정도 아끼고 품위 있는 타입",
     image: "/img/2.png",
     accent: "from-amber-100 via-rose-50 to-yellow-100",
-    link: "https://link.coupang.com/a/d9n0gK",
-    productCaption: "당신을 위한 스트레스 해소템을 추천합니다.",
     slug: "noble",
+    shareLink: "/share/noble",
+    productLink: "https://link.coupang.com/a/d9n0gK",
+    productButtonLabel: "당신을 위한 스트레스 해소템",
   },
   {
     title: "공주",
     description: "예쁨과 분위기를 중요하게 생각하고 즐길 줄 안다",
     image: "/img/3.png",
     accent: "from-pink-100 via-rose-50 to-fuchsia-100",
-    link: "https://link.coupang.com/a/d9n3gu",
-    productCaption: "공주님을 위한 스트레스 해소템을 추천합니다.",
     slug: "princess",
+    shareLink: "/share/princess",
+    productLink: "https://link.coupang.com/a/d9n3gu",
+    productButtonLabel: "공주님을 위한 스트레스 해소템",
   },
   {
     title: "여왕",
     description: "자존감이 높고 자연스럽게 중심이 되는 사람",
     image: "/img/4.png",
     accent: "from-rose-200 via-orange-100 to-yellow-100",
-    link: "https://link.coupang.com/a/d9nYIa",
-    productCaption: "퀸을 위한 스트레스 해소템을 추천합니다.",
     slug: "queen",
+    shareLink: "/share/queen",
+    productLink: "https://link.coupang.com/a/d9nYIa",
+    productButtonLabel: "퀸을 위한 스트레스 해소템",
   },
 ];
 

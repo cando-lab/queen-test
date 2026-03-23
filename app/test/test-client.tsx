@@ -1,19 +1,17 @@
 "use client";
 
 import { CoupangBanner } from "@/components/coupang-banner";
+import { getResultShareCopy } from "@/lib/share-data";
 import { calculateResult, findResultBySlug, questions } from "@/lib/test-data";
 import Image from "next/image";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useMemo, useState } from "react";
 
 export function TestClient() {
   const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [totalScore, setTotalScore] = useState(0);
-  const [toastMessage, setToastMessage] = useState("");
-  const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const sharedResult = useMemo(
     () => findResultBySlug(searchParams.get("result")),
     [searchParams],
@@ -22,14 +20,6 @@ export function TestClient() {
   const showResult = Boolean(sharedResult) || isFinished;
   const result = sharedResult ?? calculateResult(totalScore);
   const currentQuestion = questions[currentIndex];
-
-  useEffect(() => {
-    return () => {
-      if (toastTimerRef.current) {
-        clearTimeout(toastTimerRef.current);
-      }
-    };
-  }, []);
 
   const handleAnswer = (score: number) => {
     const nextScore = totalScore + score;
@@ -46,28 +36,38 @@ export function TestClient() {
   };
 
   const handleShare = async () => {
-    const shareUrl = `${window.location.origin}${pathname}?result=${result.slug}`;
+    const shareCopy = getResultShareCopy(result.slug);
+
+    if (!shareCopy) {
+      return;
+    }
+
+    const shareUrl = `${window.location.origin}${shareCopy.path}`;
+    const shareTitle = shareCopy.title;
+    const shareText = shareCopy.description;
 
     try {
-      await navigator.clipboard.writeText(shareUrl);
-      setToastMessage("링크가 복사됐어요!");
-
-      if (toastTimerRef.current) {
-        clearTimeout(toastTimerRef.current);
+      if (navigator.share) {
+        await navigator.share({
+          title: shareTitle,
+          text: shareText,
+          url: shareUrl,
+        });
+        return;
       }
 
-      toastTimerRef.current = setTimeout(() => {
-        setToastMessage("");
-      }, 1800);
-    } catch {
+      await navigator.clipboard.writeText(shareUrl);
       window.alert("링크가 복사됐어요!");
+    } catch {
+      if (!navigator.share) {
+        window.alert("링크가 복사됐어요!");
+      }
     }
   };
 
   const handleRestart = () => {
     setCurrentIndex(0);
     setTotalScore(0);
-    setToastMessage("");
     router.replace("/test");
   };
 
@@ -128,10 +128,10 @@ export function TestClient() {
                 </div>
               </div>
             ) : (
-              <div className="flex h-full flex-col justify-center gap-3">
-                <div className="space-y-3">
+              <div className="flex h-full min-h-0 flex-col">
+                <div className="space-y-3 overflow-y-auto pr-1 pb-3">
                   <a
-                    href={result.link}
+                    href={result.productLink}
                     target="_blank"
                     rel="noopener noreferrer sponsored"
                     className="block"
@@ -153,34 +153,45 @@ export function TestClient() {
                   <button
                     type="button"
                     onClick={handleShare}
-                    className="block w-full rounded-full bg-gradient-to-r from-[#ff6ea8] to-[#ff9dc4] px-5 py-3 text-center text-sm font-semibold text-white shadow-[0_10px_22px_rgba(255,110,168,0.22)] sm:text-base"
+                    className="block w-full rounded-full border border-white/65 bg-white/[0.78] px-5 py-3 text-center text-sm font-semibold text-berry sm:text-base"
                   >
                     결과 공유하기
                   </button>
 
-                  <div className="flex justify-center">
+                  <a
+                    href={result.productLink}
+                    target="_blank"
+                    rel="noopener noreferrer sponsored"
+                    className="block w-full rounded-full bg-gradient-to-r from-[#ff6ea8] to-[#ff9dc4] px-5 py-3 text-center text-sm font-semibold text-white shadow-[0_10px_22px_rgba(255,110,168,0.22)] sm:text-base"
+                  >
+                    {result.productButtonLabel}
+                  </a>
+
+                  <div className="flex justify-center pt-0.5">
                     <p className="inline-flex whitespace-nowrap rounded-full bg-white/[0.76] px-3 py-1 text-center text-[10px] text-slate-500 backdrop-blur-sm sm:text-[11px]">
                       이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
                     </p>
                   </div>
+
+                  <div className="space-y-2 pt-1">
+                    <h2 className="whitespace-nowrap font-display text-[1.8rem] leading-tight text-berry sm:text-[2.2rem]">
+                      결과 : {result.title}
+                    </h2>
+                    <p className="whitespace-nowrap text-[12px] leading-5 text-berry/85 sm:text-sm">
+                      한줄설명 : {result.description}
+                    </p>
+                  </div>
                 </div>
 
-                <div className="space-y-2">
-                  <h2 className="whitespace-nowrap font-display text-[1.8rem] leading-tight text-berry sm:text-[2.2rem]">
-                    결과 : {result.title}
-                  </h2>
-                  <p className="whitespace-nowrap text-[12px] leading-5 text-berry/85 sm:text-sm">
-                    한줄설명 : {result.description}
-                  </p>
+                <div className="mt-auto pt-2">
+                  <button
+                    type="button"
+                    onClick={handleRestart}
+                    className="block w-full translate-y-2 rounded-full border border-white/60 bg-white/[0.72] px-5 py-3 text-base font-semibold text-berry"
+                  >
+                    다시하기
+                  </button>
                 </div>
-
-                <button
-                  type="button"
-                  onClick={handleRestart}
-                  className="block w-full rounded-full border border-white/60 bg-white/[0.72] px-5 py-3 text-base font-semibold text-berry"
-                >
-                  다시하기
-                </button>
               </div>
             )}
           </section>
@@ -192,14 +203,6 @@ export function TestClient() {
           </div>
         ) : null}
       </div>
-
-      {toastMessage ? (
-        <div className="pointer-events-none absolute inset-x-0 top-3 z-20 flex justify-center px-4">
-          <p className="rounded-full bg-white/[0.86] px-4 py-2 text-sm font-semibold text-berry shadow-soft backdrop-blur-sm">
-            {toastMessage}
-          </p>
-        </div>
-      ) : null}
     </main>
   );
 }
